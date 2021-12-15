@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "maven"
+    id "maven-publish"
 }
 
 group "org.sysjava"
@@ -14,7 +14,7 @@ test {
 }
 
 dependencies {
-    compile 'org.scijava:native-lib-loader:2.3.4'
+    implementation 'org.scijava:native-lib-loader:2.3.4'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 }

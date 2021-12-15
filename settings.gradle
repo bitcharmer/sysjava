@@ -1,0 +1,4 @@
+rootProject.name = 'sysjava'
+
+include 'java'
+include 'native'
