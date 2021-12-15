@@ -1,0 +1,24 @@
+plugins {
+    id 'c'
+}
+
+model {
+    components {
+        sysjava(NativeLibrarySpec) {
+            sources {
+                c {
+                    source {
+                        srcDir "src/sysjava"
+                        include "*.c"
+                    }
+                }
+            }
+
+            binaries.all {
+                    cCompiler.args '-I', "${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
+                    cCompiler.args '-I', "${org.gradle.internal.jvm.Jvm.current().javaHome}/include/linux"
+                    cCompiler.args '-D_FILE_OFFSET_BITS=64'
+            }
+        }
+    }
+}
