@@ -14,7 +14,21 @@ public class Affinity {
 
     public static void sched_setaffinity(final int pid, final int cpu) {
         final long errnoAddress = UNSAFE.allocateMemory(4);
+        final int result = sched_setaffinity(pid, cpu, errnoAddress);
 
+        maybeThrow(errnoAddress, result);
+    }
+
+    private static native int sched_setaffinity(final int pid, final int cpu, final long errnoAddress);
+
+    private static void maybeThrow(final long errnoAddress, final long result) {
+        if (result != 0) {
+            final int errno = UNSAFE.getInt(errnoAddress);
+            UNSAFE.freeMemory(errnoAddress);
+            final SchedException.Error error = SchedException.Error.forErrno(errno);
+
+            throw new SchedException(error);
+        }
     }
 
 }
