@@ -2,6 +2,7 @@ package org.sysjava.linux.sched;
 
 import org.sysjava.SysJava;
 import org.sysjava.UnsafeAccess;
+import org.sysjava.linux.NativeError;
 import sun.misc.Unsafe;
 
 public class Affinity {
@@ -15,20 +16,8 @@ public class Affinity {
     public static void sched_setaffinity(final int pid, final int cpu) {
         final long errnoAddress = UNSAFE.allocateMemory(4);
         final int result = sched_setaffinity(pid, cpu, errnoAddress);
-
-        maybeThrow(errnoAddress, result);
+        NativeError.checkError(errnoAddress, result, (r) -> r != 0, SchedError.class);
     }
 
     private static native int sched_setaffinity(final int pid, final int cpu, final long errnoAddress);
-
-    private static void maybeThrow(final long errnoAddress, final long result) {
-        if (result != 0) {
-            final int errno = UNSAFE.getInt(errnoAddress);
-            UNSAFE.freeMemory(errnoAddress);
-            final SchedException.Error error = SchedException.Error.forErrno(errno);
-
-            throw new SchedException(error);
-        }
-    }
-
 }

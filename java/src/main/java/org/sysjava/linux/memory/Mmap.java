@@ -2,6 +2,7 @@ package org.sysjava.linux.memory;
 
 import org.sysjava.SysJava;
 import org.sysjava.UnsafeAccess;
+import org.sysjava.linux.NativeError;
 import sun.misc.Unsafe;
 
 import java.io.FileDescriptor;
@@ -14,6 +15,7 @@ public class Mmap {
     }
 
     public static final Unsafe UNSAFE = UnsafeAccess.UNSAFE;
+    public static final int MAP_FAILED              = -1;
 
     public static class Prot {
         public static final int PROT_NONE	        = 0x0;
@@ -39,16 +41,15 @@ public class Mmap {
         final long errnoAddress = UNSAFE.allocateMemory(4);
         final int fd = getFD(fileDesc);
         final long result = mmap(fd, size, prot, flags, offset, errnoAddress);
-        maybeThrow(errnoAddress, result);
+        NativeError.checkError(errnoAddress, result, (r) -> r == MAP_FAILED, MmapError.class);
 
         return result;
     }
 
     public static void munmap(final long address, final long size) {
         final long errnoAddress = UNSAFE.allocateMemory(4);
-
         final int result = unmap(address, size, errnoAddress);
-        maybeThrow(errnoAddress, result);
+        NativeError.checkError(errnoAddress, result, (r) -> r == MAP_FAILED, MmapError.class);
     }
 
     private static int getFD(final FileDescriptor fileDesc) {
@@ -60,16 +61,7 @@ public class Mmap {
             fdField.setAccessible(true);
             return (int) fdField.get(fileDesc);
         } catch (IllegalAccessException | NoSuchFieldException e) {
-            throw new MmapException("Unable to obtain integer fd for file descriptor " + fileDesc, e);
-        }
-    }
-
-    private static void maybeThrow(final long errnoAddress, final long result) {
-        if (result == -1) {
-            final int errno = UNSAFE.getInt(errnoAddress);
-            UNSAFE.freeMemory(errnoAddress);
-            final MmapException.Error error = MmapException.Error.forErrno(errno);
-            throw new MmapException(error);
+            throw new RuntimeException("Unable to obtain integer fd for file descriptor " + fileDesc, e);
         }
     }
 

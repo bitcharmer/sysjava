@@ -5,7 +5,7 @@ allprojects {
     }
 }
 
-group "org.sysjava"
+    group "org.sysjava"
 version "1.0.0-SNAPSHOT"
 
 //signing {

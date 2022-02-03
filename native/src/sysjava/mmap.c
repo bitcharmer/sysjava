@@ -9,14 +9,14 @@
 extern "C" {
 #endif
 
-JNIEXPORT jlong JNICALL Java_org_sysjava_os_memory_Mmap_mmap(JNIEnv *env, jclass cls, jint fd, jlong size, jint prot, jint flags, jlong offset, jlong errnoAddr) {
+JNIEXPORT jlong JNICALL Java_org_sysjava_linux_memory_Mmap_mmap(JNIEnv *env, jclass cls, jint fd, jlong size, jint prot, jint flags, jlong offset, jlong errnoAddr) {
     void *result = mmap(NULL, size, prot, flags, fd, offset);
     *(long int*) errnoAddr = errno;
 
     return result;
 }
 
-JNIEXPORT jint JNICALL Java_org_sysjava_os_memory_Mmap_unmap(JNIEnv *env, jclass cls, jlong addr, jlong size, jlong errnoAddr) {
+JNIEXPORT jint JNICALL Java_org_sysjava_linux_memory_Mmap_unmap(JNIEnv *env, jclass cls, jlong addr, jlong size, jlong errnoAddr) {
     int result = munmap(addr, size);
     *(long int*)(errnoAddr) = errno;
 

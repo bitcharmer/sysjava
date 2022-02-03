@@ -2,6 +2,7 @@ package org.sysjava.linux.memory;
 
 import org.sysjava.SysJava;
 import org.sysjava.UnsafeAccess;
+import org.sysjava.linux.NativeError;
 import sun.misc.Unsafe;
 
 public class MLock {
@@ -21,31 +22,31 @@ public class MLock {
     public static void mlock(final long addr, final int len) {
         final long errnoAddress = UNSAFE.allocateMemory(4);
         final int result = mlock(addr, len, errnoAddress);
-        maybeThrow(errnoAddress, result);
+        NativeError.checkError(errnoAddress, result, (r) -> r != 0, MLockError.class);
     }
 
     public static void mlock2(final long addr, final int len, final int flags) {
         final long errnoAddress = UNSAFE.allocateMemory(4);
         final int result = mlock2(addr, len, flags, errnoAddress);
-        maybeThrow(errnoAddress, result);
+        NativeError.checkError(errnoAddress, result, (r) -> r != 0, MLockError.class);
     }
 
     public static void munlock(final long addr, final int len) {
         final long errnoAddress = UNSAFE.allocateMemory(4);
         final int result = munlock(addr, len, errnoAddress);
-        maybeThrow(errnoAddress, result);
+        NativeError.checkError(errnoAddress, result, (r) -> r != 0, MLockError.class);
     }
 
     public static void mlockall(final int flags) {
         final long errnoAddress = UNSAFE.allocateMemory(4);
         final int result = mlockall(flags, errnoAddress);
-        maybeThrow(errnoAddress, result);
+        NativeError.checkError(errnoAddress, result, (r) -> r != 0, MLockError.class);
     }
 
     public static void munlockall() {
         final long errnoAddress = UNSAFE.allocateMemory(4);
         final int result = munlockall(errnoAddress);
-        maybeThrow(errnoAddress, result);
+        NativeError.checkError(errnoAddress, result, (r) -> r != 0, MLockError.class);
     }
 
     private static native int mlock(final long addr, final int len, final long errnoAddress);
@@ -53,15 +54,5 @@ public class MLock {
     private static native int munlock(final long addr, final int len, final long errnoAddress);
     private static native int mlockall(final int flags, final long errnoAddress);
     private static native int munlockall(final long errnoAddress);
-
-    private static void maybeThrow(final long errnoAddress, final long result) {
-        if (result != 0) {
-            final int errno = UNSAFE.getInt(errnoAddress);
-            UNSAFE.freeMemory(errnoAddress);
-            final MLockException.Error error = MLockException.Error.forErrno(errno);
-
-            throw new MLockException(error);
-        }
-    }
 
 }
