@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.sysjava</groupId>
     <artifactId>linux64</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>SysJava for Linux x64</name>
@@ -36,7 +35,7 @@
         <url>https://github.com/bitcharmer/sysjava</url>
         <connection>scm:git:ssh://git@github.com/bitcharmer/sysjava.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/bitcharmer/sysjava.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>linux64-1.0.1</tag>
     </scm>
 
     <distributionManagement>
