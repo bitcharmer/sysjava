@@ -1,13 +1,15 @@
-package org.sysjava.linux.time;
+import org.sysjava.linux.memory.MLock;
+import org.sysjava.linux.memory.Mmap;
+import org.sysjava.linux.sched.Sched;
+import org.sysjava.linux.time.Clock;
 
-import org.junit.Test;
+public class NativeTest {
 
-import java.lang.reflect.Field;
+    public static void main(String[] args) {
+        MLock.mlockall(MLock.Flags.MCL_CURRENT | MLock.Flags.MCL_FUTURE);
+        Mmap.mmap(null, 512, Mmap.Prot.PROT_WRITE | Mmap.Prot.PROT_READ, Mmap.Flags.MAP_PRIVATE | Mmap.Flags.MAP_ANONYMOUS, 0);
+        Sched.sched_setaffinity(0, 7);
 
-public class ClockTest {
-
-    @Test
-    public void testAllClocks() {
         testClock(Clock.Type.BOOTTIME);
         testClock(Clock.Type.BOOTTIME_ALARM);
         testClock(Clock.Type.MONOTONIC);
@@ -21,7 +23,7 @@ public class ClockTest {
         testClock(Clock.Type.THREAD_CPUTIME_ID);
     }
 
-    private void testClock(Clock.Type clockType) {
+    private static void testClock(Clock.Type clockType) {
         final long ts = Clock.clock_gettime(clockType);
         System.out.printf("Clock type: %s: %d\n", clockType, ts);
     }

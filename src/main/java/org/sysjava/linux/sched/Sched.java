@@ -5,7 +5,7 @@ import org.sysjava.UnsafeAccess;
 import org.sysjava.linux.NativeError;
 import sun.misc.Unsafe;
 
-public class Affinity {
+public class Sched {
 
     static {
         SysJava.loadNativeLib();

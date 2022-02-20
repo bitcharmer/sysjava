@@ -1,7 +1,8 @@
-#include <jni.h>
-#include <time.h>
 #ifndef _Included_org_sysjava_os_Clock
 #define _Included_org_sysjava_os_Clock
+
+#include <jni.h>
+#include <time.h>
 
 #ifdef __cplusplus
 extern "C" {

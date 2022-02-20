@@ -39,7 +39,7 @@ public class Mmap {
 
     public static long mmap(final FileDescriptor fileDesc, final long size, final int prot, final int flags, final long offset) {
         final long errnoAddress = UNSAFE.allocateMemory(4);
-        final int fd = getFD(fileDesc);
+        final int fd = fileDesc != null ? getFD(fileDesc) : 0;
         final long result = mmap(fd, size, prot, flags, offset, errnoAddress);
         NativeError.checkError(errnoAddress, result, (r) -> r == MAP_FAILED, MmapError.class);
 
