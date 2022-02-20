@@ -15,6 +15,11 @@
         <native.lib.name>libsysjava.so</native.lib.name>
     </properties>
 
+    <scm>
+        <connection>https://github.com/bitcharmer/sysjava.git</connection>
+        <developerConnection>https://github.com/bitcharmer/sysjava.git</developerConnection>
+    </scm>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
