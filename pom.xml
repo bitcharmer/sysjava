@@ -15,9 +15,9 @@
     </properties>
 
     <scm>
-        <connection>scm:git:https://github.com/bitcharmer/sysjava.git</connection>
-        <developerConnection>scm:git:https://github.com/bitcharmer/sysjava.git</developerConnection>
         <url>https://github.com/bitcharmer/sysjava</url>
+        <connection>scm:git:ssh://git@github.com/bitcharmer/sysjava.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/bitcharmer/sysjava.git</developerConnection>
   </scm>
 
     <distributionManagement>
