@@ -8,7 +8,7 @@ public class NativeTest {
     public static void main(String[] args) {
         MLock.mlockall(MLock.Flags.MCL_CURRENT | MLock.Flags.MCL_FUTURE);
         Mmap.mmap(null, 512, Mmap.Prot.PROT_WRITE | Mmap.Prot.PROT_READ, Mmap.Flags.MAP_PRIVATE | Mmap.Flags.MAP_ANONYMOUS, 0);
-        Sched.sched_setaffinity(0, 7);
+        Sched.sched_setaffinity(0, 0);
 
         testClock(Clock.Type.BOOTTIME);
         testClock(Clock.Type.BOOTTIME_ALARM);
